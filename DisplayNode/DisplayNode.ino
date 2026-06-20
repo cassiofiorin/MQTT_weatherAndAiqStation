@@ -255,16 +255,20 @@ void loopSensorReadings(unsigned long now) {
   timerBarometer = now;
   
   // Leitura direta
-  currentTemp = bmp.readTemperature();
-  currentPressure = bmp.readPressure() / 100.0F;
+  float newTemp = bmp.readTemperature();
+  float newPressure = bmp.readPressure() / 100.0F;
   
-  utilLog("SENSOR", "Temp: " + String(currentTemp, 1) + " C | Pressao: " + String(currentPressure, 1) + " hPa");
+  utilLog("SENSOR", "Temp: " + String(newTemp, 1) + " C | Pressao: " + String(newPressure, 1) + " hPa");
   
-  // Atualiza histórico
+  // Atualiza histórico (desloca valores antigos)
   for (int i = 8; i > 0; i--) {
     pressureHistory[i] = pressureHistory[i-1];
   }
-  pressureHistory[0] = currentPressure;
+  pressureHistory[0] = newPressure;
+  
+  // Atualiza variáveis globais APÓS salvar no histórico
+  currentTemp = newTemp;
+  currentPressure = newPressure;
 }
 
 void syncRTCIfNeeded() {
@@ -388,8 +392,7 @@ void loopAlertLogicInitialization(unsigned long now) {
 }
 
 void loopAlertLogicEvaluation() {
-  // Só avalia se acabou de ler sensores (timerBarometer foi atualizado recentemente)
-  // Nota: Para simplificar, assumimos que essa função é chamada logo após a leitura
+  // Só avalia se temos leituras válidas no histórico
   bool triggered = false;
   String msg = "";
 
@@ -500,12 +503,14 @@ void loop() {
   loopAlertLogicInitialization(now);
 
   // 4. Leitura de Sensores (A cada 15 min)
-  loopSensorReadings(now);
+  bool sensorRead = false;
+  if (isBmpFound && (now - timerBarometer >= cfg.intervalBarometer)) {
+    loopSensorReadings(now);
+    sensorRead = true;
+  }
 
-  // 5. Avaliação de Alertas (Imediatamente após leitura)
-  // Nota: Como loopSensorReadings só executa a cada 15min, isso também só roda nesse intervalo
-  if (timerBarometer == now || (now - timerBarometer < 1000)) { 
-     // Pequena margem para garantir que rode após a leitura no mesmo ciclo
+  // 5. Avaliação de Alertas (apenas quando há nova leitura de sensores)
+  if (sensorRead) {
      loopAlertLogicEvaluation();
   }
 
