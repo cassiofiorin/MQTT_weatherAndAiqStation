@@ -269,6 +269,18 @@ void loopSensorReadings(unsigned long now) {
   // Atualiza variáveis globais APÓS salvar no histórico
   currentTemp = newTemp;
   currentPressure = newPressure;
+  
+  // Publica dados no MQTT imediatamente após leitura
+  if (isWifiConnected && client.connected()) {
+    char tempStr[10];
+    char pressStr[10];
+    dtostrf(currentTemp, 1, 1, tempStr);
+    dtostrf(currentPressure, 1, 0, pressStr);
+    
+    networkPublish("casa/temperatura", tempStr);
+    networkPublish("casa/pressao", pressStr);
+    utilLog("MQTT", "Dados publicados: Temp=" + String(tempStr) + " Pressao=" + String(pressStr));
+  }
 }
 
 void syncRTCIfNeeded() {

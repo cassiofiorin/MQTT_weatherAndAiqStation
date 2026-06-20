@@ -4,45 +4,27 @@
 *.elf
 *.bin
 *.map
-*.sym
-*.lss
-*.d
-*.o
-*.a
-*.so
-*.dylib
-*.dll
-*.exe
-*.out
-
-# Build directories
 build/
-dist/
-output/
+Build/
 
 # IDE specific
 .vscode/
 .idea/
-*.swp
-*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
 
 # Logs
 *.log
 
-# Temp files
+# Temporary files
 *.tmp
-*~
+*.temp
+```
 
-# Environment
-.env
-.env.local
-.env.*
+Wait, let me reconsider this. The only modified file is a single Arduino source file (.ino), which is source code. There are no build artifacts, dependency directories, or temporary files in the change list that would require adding ignore rules.
 
-# Dependencies
-node_modules/
-venv/
-.venv/
-__pycache__/
-*.egg-info/
-.Python
+```
+
 ```
