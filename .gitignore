@@ -5,26 +5,21 @@
 *.bin
 *.map
 build/
-Build/
+.cache/
 
-# IDE specific
+# Dependencies
+libraries/
+
+# IDE
 .vscode/
 .idea/
 
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Logs
+# Logs and temp files
 *.log
-
-# Temporary files
 *.tmp
-*.temp
-```
 
-Wait, let me reconsider this. The only modified file is a single Arduino source file (.ino), which is source code. There are no build artifacts, dependency directories, or temporary files in the change list that would require adding ignore rules.
-
-```
-
+# Environment
+.env
+.env.local
+*.env.*
 ```
