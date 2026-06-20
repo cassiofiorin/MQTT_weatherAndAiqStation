@@ -480,7 +480,7 @@ void setup() {
   syncRTCIfNeeded();
 
   // Inicializa timers
-  timerBarometer = millis();
+  timerBarometer = millis() - cfg.intervalBarometer; // Permite leitura imediata
   timerHourly = millis();
   timerWifi = millis();
   
