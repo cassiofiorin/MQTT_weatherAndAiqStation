@@ -207,7 +207,7 @@ void loopDisplayRender() {
     display.setCursor(28, 30);
     display.printf("Temp: %.1f C", currentTemp);
     display.setCursor(19, 42);
-    display.printf("Press: %.0f hPa", currentPressure);
+    display.printf("Press: %.1f hPa", currentPressure);
   }
   
   // Alerta
@@ -275,7 +275,7 @@ void loopSensorReadings(unsigned long now) {
     char tempStr[10];
     char pressStr[10];
     dtostrf(currentTemp, 1, 1, tempStr);
-    dtostrf(currentPressure, 1, 0, pressStr);
+    dtostrf(currentPressure, 1, 1, pressStr);
     
     networkPublish("casa/temperatura", tempStr);
     networkPublish("casa/pressao", pressStr);
