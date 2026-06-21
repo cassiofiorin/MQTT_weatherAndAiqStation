@@ -10,4 +10,6 @@ Quanto ao barômetro, também foram criados alertas com base neste sensor, a ide
 
 Outra adição importante foi a inclusão do sensor SPS30 da Sensirion, que mede a densisdade de particulas supensas no ar e o tamanho delas. Indicando o nível de poluíção ambiental, assim como suas consequências para a respiração, com índice de qualidade do ar.
 
-O código e comentários foram reorganizados utilizando a Qwen IA
+Também há arquivos STEP das caixas de cada sensor, esses arquivos são de modelagem próprios para o projeto, realizados conforme medidas de cada sensor, visando otimização do fluxo de ar e para comportar todos os componentes de maneira segura.
+
+O código e comentários foram reorganizados utilizando a Qwen IA.
