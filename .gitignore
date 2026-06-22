@@ -5,21 +5,31 @@
 *.bin
 *.map
 build/
-.cache/
+*.cpp.o
+*.S.o
+*.d
+*.core.a
 
 # Dependencies
 libraries/
 
-# IDE
-.vscode/
-.idea/
-
 # Logs and temp files
 *.log
 *.tmp
+*.swp
 
 # Environment
 .env
 .env.local
-*.env.*
+.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
 ```

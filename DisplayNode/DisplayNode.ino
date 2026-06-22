@@ -35,13 +35,16 @@ struct Config {
   const int oledReset = -1;
   const int displayAddr = 0x3C;
   
-  const unsigned long intervalBarometer = 900000;   
+  const unsigned long intervalBarometer = 300000;   // 5 minutos (reduzido de 15min para 5min)
   const unsigned long intervalHourlyPublish = 3600000; 
   const unsigned long intervalWifiCheck = 30000;    
   const unsigned long durationAlertInit = 120000;   
   const unsigned long durationAlertDisplay = 1800000; 
   const unsigned long durationButtonWake = 30000;   
   const unsigned long debounceDelay = 50;
+  
+  // Calibração do sensor de temperatura (offset em °C)
+  const float tempOffset = -1.0;  // Ajuste fino: -1.0 para compensar leitura 1°C acima
 };
 
 const Config cfg;
@@ -255,7 +258,7 @@ void loopSensorReadings(unsigned long now) {
   timerBarometer = now;
   
   // Leitura direta
-  float newTemp = bmp.readTemperature();
+  float newTemp = bmp.readTemperature() + cfg.tempOffset;  // Aplica calibração de temperatura
   float newPressure = bmp.readPressure() / 100.0F;
   
   utilLog("SENSOR", "Temp: " + String(newTemp, 1) + " C | Pressao: " + String(newPressure, 1) + " hPa");
